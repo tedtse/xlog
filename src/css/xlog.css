@@ -1,13 +1,12 @@
 /* CSS Document */
-body {
-    margin: 0;
-}
-h1, h2, h3, h4, h5 {
+#xlog h1, h2, h3, h4, h5 {
     margin: 0;
     padding: 0;
 }
-ul, li {
-    list-style-type: none; margin:0; padding: 0;
+#xlog ul, li {
+    list-style-type: none;
+    margin:0; 
+    padding: 0;
 }
 #xlog {
     background-color: #fff;
@@ -23,7 +22,6 @@ ul, li {
     -moz-user-select:none;
     -webkit-user-select:none; 
     -ms-user-select:none; 
-    -khtml-user-select:none;
     user-select:none;
 }
 #xlog h3 {
@@ -67,8 +65,14 @@ ul, li {
     padding: 0 10px;
     font-size: 1.25em;
 }
-#xlog .xlog-taskbar b {
-    cursor: pointer;
+#xlog .xlog-taskbar a {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+}
+#xlog .xlog-clean-button {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABbklEQVQ4T4XTv0vWURTH8dfTEBWN0RoOuap/QARNOWQJYhA2RaXgEJhQ/4AtCUH5KCK4FKQQCTXUUNI/kJVD1mDN0ZZILhUHzpXL13y82z3n3Pc9Pz6nZe/pw02cw6l0f8dbzOFj/aRVXY7iIa79B1pMfzGPW/gdxgKIx69xJiN/4Tk+ZUwvLuJ4+t/hfEAKYKHx82UsNzI5kb8Ppj3KGQtA1Py+EbyNC1l37TqEZ7iEKKcvAEGKpm1lFos4hv0gJ/EtY9oB+IrTeIyr2f0XB0CWMIyNAOzgMG5jOvONEXaC3MVUvK0Bk7hfFdwJcgf3CuALuvEEI41m7gd5ipjU58hgFqPZxC78PAByHTH20M6jAPRgLQUT4hnCnw6QWpU9RUhllOFcybH+aECuZJnFPIPxAjiCVzib3tDAS3xIwYSUBzLtCFlFf2liIQbkAW5UO9Lcq1BfGxM5/t1lqgOjJwGJCURT42ziTe7Ceh38D2ihWTK6SS/XAAAAAElFTkSuQmCC);
 }
 #xlog .xlog-body {
     height: 150px;
