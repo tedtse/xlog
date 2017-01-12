@@ -1,0 +1,113 @@
+/* CSS Document */
+body {
+    margin: 0;
+}
+h1, h2, h3, h4, h5 {
+    margin: 0;
+    padding: 0;
+}
+ul, li {
+    list-style-type: none; margin:0; padding: 0;
+}
+#xlog {
+    background-color: #fff;
+    position: fixed;
+    z-index: 999999;
+    width: 600px;
+    height: 230px;
+    left: 50%;
+    bottom: 0;
+    margin-left: -300px;
+    font-size: 14px;
+    display: none;
+    -moz-user-select:none;
+    -webkit-user-select:none; 
+    -ms-user-select:none; 
+    -khtml-user-select:none;
+    user-select:none;
+}
+#xlog h3 {
+    font-style: italic;
+    color: #FFF;
+    background-color: #4198fe;
+    text-indent: .5em;
+    letter-spacing: .5em;
+    line-height: 30px;
+    font-size: 24px;
+    font-family: serif;
+}
+#xlog h3:hover {
+    cursor: move;
+}
+#xlog h3 a.close {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    float: right;
+    background-color: #FFF;
+    color: #333;
+    margin: 6px 6px 0 0;
+    font-size: 17px;
+    line-height: 18px;
+    letter-spacing: 0;
+    text-indent: 0;
+    text-decoration: none;
+    text-align: center;
+    font-style: normal;
+    font-family: arial;
+    font-weight: normal;
+}
+#xlog .xlog-taskbar {
+    background-color: #dddddd;
+    border-style: none solid none solid;
+    border-width: 1px;
+    border-color: #999;
+    color: #444;
+    line-height: 30px;
+    padding: 0 10px;
+    font-size: 1.25em;
+}
+#xlog .xlog-taskbar b {
+    cursor: pointer;
+}
+#xlog .xlog-body {
+    height: 150px;
+    border-style: none solid solid solid;
+    border-width: 1px;
+    border-color: #999;
+    padding: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+#xlog .xlog-body ul{
+    word-break: break-all;
+}
+#xlog .xlog-body li {
+    line-height: 20px;
+    position: relative;
+    padding-left: .75em;
+}
+#xlog .xlog-body li:before, #xlog .xlog-body li:after {
+    content: "";
+    position: absolute;
+    border-style: solid;
+    border-width: 4px;
+    width: 0;
+    height: 0;
+    top: 7px;
+}
+#xlog .xlog-body li:before {
+    border-color: transparent transparent transparent #4198fe;
+    left: 0;
+}
+#xlog .xlog-body li:after {
+    border-color: transparent transparent transparent #fff;
+    left: -2px;
+}
+.clearfix:after {
+    content: "";
+    clear: both;
+    display: block;
+    height: 0;
+    overflow: hidden;
+}
