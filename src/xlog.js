@@ -27,9 +27,11 @@
     },
     
     initEvents: function () {
-      require('./events/toggle');
       require('./events/clean');
+      require('./events/entity');
+      require('./events/filter');
       require('./events/move');
+      require('./events/toggle');
       require('./events/transform');
     },
 

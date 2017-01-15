@@ -17,6 +17,10 @@ module.exports = {
       {
         test: /\.tpl$/,
         loader: 'string'
+      },
+      {
+        test: /\.(png|jpg)$/,
+        loader: 'url'
       }
     ]
   }

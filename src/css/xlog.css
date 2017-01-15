@@ -1,15 +1,24 @@
 /* CSS Document */
-#xlog h1, h2, h3, h4, h5 {
+#xlog h1, #xlog  h2, #xlog  h3, #xlog  h4, #xlog  h5 {
     margin: 0;
     padding: 0;
 }
-#xlog ul, li {
+#xlog p {
+    margin: 0;
+    padding: 0;
+}
+#xlog ul, #xlog li, #xlog dl, #xlog dt, #xlog dd {
     list-style-type: none;
     margin:0; 
     padding: 0;
 }
+#xlog a {
+    text-decoration: none;
+    color: #333;
+}
 #xlog {
     background-color: #fff;
+    color: #444;
     position: fixed;
     z-index: 999999;
     width: 600px;
@@ -17,21 +26,17 @@
     left: 50%;
     bottom: 0;
     margin-left: -300px;
-    font-size: 14px;
+    font-size: 13px;
     display: none;
-    -moz-user-select:none;
-    -webkit-user-select:none; 
-    -ms-user-select:none; 
-    user-select:none;
 }
 #xlog h3 {
     font-style: italic;
     color: #FFF;
     background-color: #4198fe;
     text-indent: .5em;
-    letter-spacing: .5em;
+    letter-spacing: .2em;
     line-height: 30px;
-    font-size: 24px;
+    font-size: 22px;
     font-family: serif;
 }
 #xlog h3:hover {
@@ -39,13 +44,13 @@
 }
 #xlog h3 a.close {
     display: inline-block;
-    width: 18px;
+    width: 16px;
     height: 18px;
     float: right;
     background-color: #FFF;
     color: #333;
     margin: 6px 6px 0 0;
-    font-size: 17px;
+    font-size: 16px;
     line-height: 18px;
     letter-spacing: 0;
     text-indent: 0;
@@ -55,43 +60,98 @@
     font-family: arial;
     font-weight: normal;
 }
-#xlog .xlog-taskbar {
-    background-color: #dddddd;
-    border-style: none solid none solid;
+#xlog .xlog-taskbar, #xlog .xlog-dropbar {
     border-width: 1px;
-    border-color: #999;
+    border-color: #999 #999 #ccc #999;
+    border-style: none solid solid solid;
     color: #444;
-    line-height: 30px;
+    line-height: 28px;
     padding: 0 10px;
+}
+#xlog .xlog-taskbar {
     font-size: 1.25em;
+}
+#xlog .xlog-dropbar {
+    background-color: #dddddd;
+}
+#xlog .xlog-taskbar a, #xlog .xlog-body li.info:before, #xlog .xlog-body li.warn:before, #xlog .xlog-body li.error:before {
+    background-repeat: no-repeat;
+    background-image: url(../images/icon.png);
 }
 #xlog .xlog-taskbar a {
     display: inline-block;
-    width: 16px;
-    height: 16px;
-    background-repeat: no-repeat;
+    width: 14px;
+    height: 14px;
 }
 #xlog .xlog-clean-button {
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABbklEQVQ4T4XTv0vWURTH8dfTEBWN0RoOuap/QARNOWQJYhA2RaXgEJhQ/4AtCUH5KCK4FKQQCTXUUNI/kJVD1mDN0ZZILhUHzpXL13y82z3n3Pc9Pz6nZe/pw02cw6l0f8dbzOFj/aRVXY7iIa79B1pMfzGPW/gdxgKIx69xJiN/4Tk+ZUwvLuJ4+t/hfEAKYKHx82UsNzI5kb8Ppj3KGQtA1Py+EbyNC1l37TqEZ7iEKKcvAEGKpm1lFos4hv0gJ/EtY9oB+IrTeIyr2f0XB0CWMIyNAOzgMG5jOvONEXaC3MVUvK0Bk7hfFdwJcgf3CuALuvEEI41m7gd5ipjU58hgFqPZxC78PAByHTH20M6jAPRgLQUT4hnCnw6QWpU9RUhllOFcybH+aECuZJnFPIPxAjiCVzib3tDAS3xIwYSUBzLtCFlFf2liIQbkAW5UO9Lcq1BfGxM5/t1lqgOjJwGJCURT42ziTe7Ceh38D2ihWTK6SS/XAAAAAElFTkSuQmCC);
+    background-position: 0 0;
+}
+#xlog .xlog-filter-button {
+    background-position: -14px 0;
+}
+#xlog .xlog-filter-button.active {
+    background-position: -28px 0;
+}
+#xlog .xlog-dropbar a {
+    display: inline-block;
+    border-radius: 5px;
+    line-height: 1em;
+    padding: 2px 5px;
+}
+#xlog .xlog-dropbar a:hover {
+    background-color: #bbbbbb;
+}
+#xlog .xlog-dropbar a.selected {
+    background-color: #999999;
+    color: #fff;
+    cursor: default;
 }
 #xlog .xlog-body {
     height: 150px;
     border-style: none solid solid solid;
     border-width: 1px;
     border-color: #999;
-    padding: 10px;
     overflow-x: hidden;
     overflow-y: auto;
 }
-#xlog .xlog-body ul{
+#xlog .xlog-body ul {
     word-break: break-all;
 }
 #xlog .xlog-body li {
-    line-height: 20px;
+    color: #3a22d8;
+    line-height: 22px;
     position: relative;
-    padding-left: .75em;
+    padding: 0 .7em 0 .5em;
 }
-#xlog .xlog-body li:before, #xlog .xlog-body li:after {
+#xlog .xlog-list-detail span {
+    cursor: pointer;
+    display: inline-block;
+    text-indent: 0;
+}
+#xlog .xlog-list-detail span:before {
+    content: "";
+    border-style: solid;
+    border-color: transparent transparent transparent #555;
+    border-width: 4px 7px;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-right: -4px;
+    vertical-align: 1px;
+}
+#xlog .xlog-list-detail span.on:before {
+    border-color: #555 transparent transparent transparent;
+    border-width: 7px 4px;
+    margin-right: 2px;
+    vertical-align: -5px;
+}
+#xlog .xlog-list-detail ul {
+    display: none;
+}
+#xlog .xlog-list-detail li {
+    line-height: 1.2em;
+}
+#xlog .xlog-body li.edit:before, #xlog .xlog-body li.edit:after {
     content: "";
     position: absolute;
     border-style: solid;
@@ -100,13 +160,55 @@
     height: 0;
     top: 7px;
 }
-#xlog .xlog-body li:before {
+#xlog .xlog-body li.edit:before {
     border-color: transparent transparent transparent #4198fe;
     left: 0;
 }
-#xlog .xlog-body li:after {
+#xlog .xlog-body li.edit:after {
     border-color: transparent transparent transparent #fff;
     left: -2px;
+}
+#xlog .xlog-body li.log {
+    border-bottom: 1px solid #f0f0f0;
+    text-indent: 17px;
+}
+#xlog .xlog-body li.info {
+    border-bottom: 1px solid #f0f0f0;
+}
+#xlog .xlog-body li.info:before {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-position: -43px 0;
+    vertical-align: text-bottom;
+    margin-right: 5px;
+}
+#xlog .xlog-body li.warn {
+    background-color: #fffbe6;
+    border-bottom: 1px solid #fff5c2;
+}
+#xlog .xlog-body li.warn:before {
+    content: "";
+    display: inline-block;
+    width: 11px;
+    height: 12px;
+    background-position: -57px 0;
+    vertical-align: text-bottom;
+    margin-right: 6px;
+}
+#xlog .xlog-body li.error {
+    background-color: #fff0f0;
+    border-bottom: 1px solid #ffd7d7;
+}
+#xlog .xlog-body li.error:before {
+    content: "";
+    display: inline-block;
+    width: 13px;
+    height: 12px;
+    background-position: -71px 0;
+    vertical-align: text-bottom;
+    margin-right: 4px;
 }
 .clearfix:after {
     content: "";

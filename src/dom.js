@@ -1,9 +1,69 @@
 ; (function (root, doc) {
   var util = require('./util');
+  var VirtualLi = require('./virtual-dom/virtual-li');
+  var VirtualLiDetail = require('./virtual-dom/virtual-li-detail');
+  var virtualRoot = require('./virtual-dom/virtual-document');
+  var virtualEntity = virtualRoot.getElmentsByTagName('virtualentity')[0];
+  
+  var _msgFormat = function (obj) {
+    var result = {};
+    switch (obj.constructor) {
+      case Array:
+        result.instance = 'array';
+        result.html = _arrayToHTML(obj);
+        break;
+      case Object:
+        result.instance = 'object';
+        result.html = _objectToHTML(obj);
+        break;
+      case String:
+        result.instance = 'string';
+        result.html = util.htmlEncode(obj);
+        break;
+      default:
+        result.instance = 'other';
+        result.html = obj;
+        break;
+    }
+    return result;
+  };
+
+  var _arrayToHTML = function (arr) {
+    var html = 
+      '<div class="xlog-list-detail"> \
+        <span>[ ' + arr.join(', ') + ' ]</span> \
+          <ul>';
+    for (var i = 0, j = arr.length; i < j; i++) {
+      html += '<li>' + arr[i] + '</li>';
+    }
+    html += 
+        '</ul> \
+      </div>';
+    return html;
+  };
+
+  var _objectToHTML = function (obj) {
+    var arr = [];
+    var html = '';
+    for (var key in obj) {
+      arr.push(key + ': ' + obj[key]); 
+    }
+    html = 
+      '<div class="xlog-list-detail"> \
+        <span>{ ' + arr.join(', ') + ' }</span> \
+          <ul>';
+    for (var i = 0, j = arr.length; i < j; i++) {
+      html += '<li>' + arr[i] + '</li>';
+    }
+    html += 
+        '</ul> \
+      </div>';
+    return html;
+  };
   
   module.exports = {
     container: null,
-    
+
     head: null,
     
     body: null,
@@ -13,6 +73,14 @@
     closeButton: null,
     
     cleanButton: null,
+
+    filterButton: null,
+
+    titlebar: null,
+
+    taskBar: null,
+
+    dropBar: null,
     
     offsetWidth: 0,
     
@@ -31,6 +99,10 @@
       this.entity = container.querySelector('[role="xlog-entity"]');
       this.closeButton = container.querySelector('[role="xlog-close-button"]');
       this.cleanButton = container.querySelector('[role="xlog-clean-button"]');
+      this.filterButton = container.querySelector('[role="xlog-filter-button"]');
+      this.titleBar = container.querySelector('[role="xlog-titlebar"]');
+      this.taskBar = container.querySelector('[role="xlog-taskbar"]');
+      this.dropBar = container.querySelector('[role="xlog-dropbar"]');
       this.resetPosition();
     },
     
@@ -79,6 +151,7 @@
       var entity = this.entity;
       if (entity) {
         entity.innerHTML = '';
+        virtualEntity.clean();
       }
     },
     
@@ -87,16 +160,39 @@
       if (!entity) {
         return;
       }
-      
-      switch (level) {
-        case 'warn':
-        case 'error':
-        case 'info':
-        case 'log':
-        default:
-          entity.innerHTML += '<li>' + msg + '</li>';
-          break;
+      level = level || 'log';
+      var li = document.createElement('LI');
+      var virtualLi = new VirtualLi(level);
+      var fmt = _msgFormat(msg);
+      li.setAttribute('data-virtual-id', virtualLi.id);
+      li.className = level;
+      li.innerHTML = fmt.html;
+      entity.appendChild(li);
+      virtualEntity.appendChild(virtualLi);
+      virtualLi.map(li);
+      if (fmt.instance === 'array' || fmt.instance === 'object') {
+        var virtualLiDetail = new VirtualLiDetail();
+        virtualLi.appendChild(virtualLiDetail);
+        virtualLiDetail.fullMap(li.querySelector('.xlog-list-detail'));
       }
+    },
+
+    filter: function (level) {
+      virtualEntity.eachChild(function (child) {
+        if (level === 'all' || child.level === level) {
+          if (child.display === 'hidden') {
+            child.nativeElement.style.display = 'block';
+            child.display = 'show';
+          }
+          return;
+        }
+        if (child.level !== level) {
+          if (child.display === 'show') {
+            child.nativeElement.style.display = 'none';
+            child.display = 'hidden';
+          }
+        }
+      });
     }
   };
 }) (window, document);
