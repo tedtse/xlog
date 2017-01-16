@@ -1,3 +1,6 @@
+var webpack = require('webpack');
+var config = require('./config');
+
 module.exports = {
   entry: {
     xlog: './src/index.js'
@@ -23,5 +26,10 @@ module.exports = {
         loader: 'url'
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      __CONFIG__: JSON.stringify(config)
+    })
+  ]
 }

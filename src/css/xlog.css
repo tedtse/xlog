@@ -107,7 +107,8 @@
     cursor: default;
 }
 #xlog .xlog-body {
-    height: 150px;
+    height: 170px;
+    background: #fff;
     border-style: none solid solid solid;
     border-width: 1px;
     border-color: #999;

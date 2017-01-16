@@ -44,9 +44,12 @@ VirtualElement.prototype = {
   map: function (el) {
     this.nativeElement = el;
   },
-  appendChild: function (el) {
-    this.children.push(el);
-    el.parent = this;
+  appendChild: function () {
+    Array.prototype.push.apply(this.children, arguments);
+    for (var i = 0, j = arguments.length; i < j; i++) {
+      var el = arguments[i];
+      el.parent = this;
+    }
   },
   eachChild: function (callback) {
     if (typeof callback !== 'function') {

@@ -1,9 +1,10 @@
 var util = require('../util');
 var dom = require('../dom');
-var State = require('../state');
-
-var dropBar = dom.dropBar;
+var dropbar = dom.dropbar;
 var filterButton = dom.filterButton;
+var virtualCache = require('../virtual-dom/virtual-cache');
+var vritualDropbar = virtualCache.dropbar;
+var virtualEntity = virtualCache.entity;
 
 var map = {
   'all': 'xlog-filter-all',
@@ -24,28 +25,46 @@ var findKey = function (role) {
   return result;
 };
 
+var checkEveryOne = function (level) {
+  virtualEntity.eachChild(function (child) {
+    if (level === 'all' || child.level === level) {
+      if (child.display === 'hidden') {
+        child.nativeElement.style.display = 'block';
+        child.display = 'show';
+      }
+      return;
+    }
+    if (child.level !== level) {
+      if (child.display === 'show') {
+        child.nativeElement.style.display = 'none';
+        child.display = 'hidden';
+      }
+    }
+  });
+}
+
 util.on(filterButton, 'click', function () {
-  if (State.dropbarDisplay === 'hidden') {
-    dropBar.style.display = "block";
+  if (vritualDropbar.display === 'hidden') {
+    dropbar.style.display = "block";
     util.addClass(filterButton, 'active');
-    State.dropbarDisplay = 'show';
+    vritualDropbar.display = 'show';
   } else {
-    dropBar.style.display = "none";
+    dropbar.style.display = "none";
     util.removeClass(filterButton, 'active');
-    State.dropbarDisplay = 'hidden';
+    vritualDropbar.display = 'hidden';
   }
 });
 
-util.on(dropBar, 'click', 'a', function (evt) {
+util.on(dropbar, 'click', 'a', function (evt) {
   var e = evt || event;
   var target = e.target || e.srcElement;
   var role = target.getAttribute('role');
   var selected = findKey(role);
-  if (selected === State.filterSelected) {
+  if (selected === vritualDropbar.filterSelected) {
     return;
   }
-  util.removeClass(dropBar.querySelector('[role="' + map[State.filterSelected] + '"]'), 'selected');
-  util.addClass(dropBar.querySelector('[role="' + role + '"]'), 'selected');
-  State.filterSelected = selected;
-  dom.filter(selected);
+  util.removeClass(dropbar.querySelector('[role="' + map[vritualDropbar.filterSelected] + '"]'), 'selected');
+  util.addClass(dropbar.querySelector('[role="' + role + '"]'), 'selected');
+  vritualDropbar.filterSelected = selected;
+  checkEveryOne(selected);
 });

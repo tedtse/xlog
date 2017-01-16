@@ -2,13 +2,13 @@ var util = require('../util');
 var dom = require('../dom');
 
 var container = dom.container;
-var titleBar = dom.titleBar;
+var titlebar = dom.titlebar;
 var movable = false;
 // var winWidth = document.documentElement.clientWidth;
 var winHeight = document.documentElement.clientHeight;
 var initX, initY, initOffsetLeft, initOffsetTop;
 
-util.on(titleBar, 'mousedown', function (evt) {
+util.on(titlebar, 'mousedown', function (evt) {
   var e = evt || event;
   initX = e.clientX;
   initY = e.clientY;

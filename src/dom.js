@@ -1,10 +1,7 @@
 ; (function (root, doc) {
   var util = require('./util');
   var setting = require('./setting');
-  var VirtualLi = require('./virtual-dom/virtual-li');
-  var VirtualLiDetail = require('./virtual-dom/virtual-li-detail');
-  var virtualRoot = require('./virtual-dom/virtual-document');
-  var virtualEntity = virtualRoot.getElmentsByTagName('virtualentity')[0];
+  var Bus = require('./bus');
   
   var _msgFormat = function (obj) {
     var result = {};
@@ -79,19 +76,9 @@
 
     titlebar: null,
 
-    taskBar: null,
+    taskbar: null,
 
-    dropBar: null,
-    
-    offsetWidth: 0,
-    
-    offsetHeight: 0,
-    
-    offsetLeft: 0,
-    
-    offsetTop: 0,
-    
-    marginLeft: 0,
+    dropbar: null,
     
     initDom: function () {
       var container = this.container;
@@ -101,22 +88,13 @@
       this.closeButton = container.querySelector('[role="xlog-close-button"]');
       this.cleanButton = container.querySelector('[role="xlog-clean-button"]');
       this.filterButton = container.querySelector('[role="xlog-filter-button"]');
-      this.titleBar = container.querySelector('[role="xlog-titlebar"]');
-      this.taskBar = container.querySelector('[role="xlog-taskbar"]');
-      this.dropBar = container.querySelector('[role="xlog-dropbar"]');
-      this.resetPosition();
-      if (setting.display) {
-        container.style.display = 'block';
-      }
-    },
-    
-    resetPosition: function () {
-      var container = doc.createElement('div');
-      this.offsetWidth = container.offsetWidth;
-      this.offsetHeight = container.offsetHeight;
-      this.offsetLeft = container.offsetLeft;
-      this.offsetTop = container.offsetTop;
-      this.marginLeft = parseFloat(util.getStyle(container, 'marginLeft'));
+      this.titlebar = container.querySelector('[role="xlog-titlebar"]');
+      this.taskbar = container.querySelector('[role="xlog-taskbar"]');
+      this.dropbar = container.querySelector('[role="xlog-dropbar"]');
+      // if (setting.display) {
+      //   container.style.display = 'block';
+      // }
+      require('./virtual-dom/virtual-document');
     },
     
     generate: function () {
@@ -137,11 +115,6 @@
         return;
       }
       container.style.display = 'block';
-      this.offsetWidth = container.offsetWidth;
-      this.offsetHeight = container.offsetHeight;
-      this.offsetLeft = container.offsetLeft;
-      this.offsetTop = container.offsetTop;
-      this.marginLeft = parseFloat(util.getStyle(container, 'marginLeft'));
     },
 
     hide: function () {
@@ -155,7 +128,6 @@
       var entity = this.entity;
       if (entity) {
         entity.innerHTML = '';
-        virtualEntity.clean();
       }
     },
     
@@ -166,37 +138,11 @@
       }
       level = level || 'log';
       var li = document.createElement('LI');
-      var virtualLi = new VirtualLi(level);
       var fmt = _msgFormat(msg);
-      li.setAttribute('data-virtual-id', virtualLi.id);
       li.className = level;
       li.innerHTML = fmt.html;
       entity.appendChild(li);
-      virtualEntity.appendChild(virtualLi);
-      virtualLi.map(li);
-      if (fmt.instance === 'array' || fmt.instance === 'object') {
-        var virtualLiDetail = new VirtualLiDetail();
-        virtualLi.appendChild(virtualLiDetail);
-        virtualLiDetail.fullMap(li.querySelector('.xlog-list-detail'));
-      }
-    },
-
-    filter: function (level) {
-      virtualEntity.eachChild(function (child) {
-        if (level === 'all' || child.level === level) {
-          if (child.display === 'hidden') {
-            child.nativeElement.style.display = 'block';
-            child.display = 'show';
-          }
-          return;
-        }
-        if (child.level !== level) {
-          if (child.display === 'show') {
-            child.nativeElement.style.display = 'none';
-            child.display = 'hidden';
-          }
-        }
-      });
+      Bus.dispatch('PRINT', level, fmt, li);
     }
   };
 }) (window, document);

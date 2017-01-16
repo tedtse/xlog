@@ -1,9 +1,19 @@
-var VirtualRoot = require('./virtual-root');
+var dom = require('../dom');
+var VirtualContainer = require('./virtual-container');
+var VirtualDropbar = require('./virtual-dropbar');
 var VirtualEntiny = require('./virtual-entity');
+var virtualCache = require('./virtual-cache');
 
-var virtualRoot = new VirtualRoot();
+var virtualContainer = new VirtualContainer();
+var virtualDropbar = new VirtualDropbar();
 var virtualEntiny = new VirtualEntiny();
+virtualContainer.map(dom.container);
+virtualDropbar.map(dom.dropbar);
+virtualEntiny.map(dom.entity);
+virtualContainer.appendChild(virtualDropbar, virtualEntiny);
 
-virtualRoot.appendChild(virtualEntiny);
-// console.log(virtualRoot);
-module.exports = virtualRoot;
+virtualCache.container = virtualContainer;
+virtualCache.dropbar = virtualDropbar;
+virtualCache.entity = virtualEntiny;
+
+console.log(virtualContainer);
