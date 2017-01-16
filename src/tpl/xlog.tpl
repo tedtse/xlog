@@ -12,6 +12,7 @@
     <a class="xlog-filter-warn" href="javascript:;" role="xlog-filter-warn">Warnings</a>
     <a class="xlog-filter-info" href="javascript:;" role="xlog-filter-info">Info</a>
     <a class="xlog-filter-log" href="javascript:;" role="xlog-filter-log">Logs</a>
+    <a class="xlog-filter-debug" href="javascript:;" role="xlog-filter-debug">Debug</a>
   </div>
 </div>
 <div class="xlog-body" role="xlog-body">

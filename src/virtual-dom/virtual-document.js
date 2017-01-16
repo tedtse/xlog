@@ -5,5 +5,5 @@ var virtualRoot = new VirtualRoot();
 var virtualEntiny = new VirtualEntiny();
 
 virtualRoot.appendChild(virtualEntiny);
-console.log(virtualRoot);
+// console.log(virtualRoot);
 module.exports = virtualRoot;

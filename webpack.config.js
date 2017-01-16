@@ -1,6 +1,6 @@
 module.exports = {
   entry: {
-    xlog: './src/xlog.js'
+    xlog: './src/index.js'
   },
   output: {
     path: './dist/',

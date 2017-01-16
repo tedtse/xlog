@@ -1,5 +1,6 @@
 ; (function (root, doc) {
   var util = require('./util');
+  var setting = require('./setting');
   var VirtualLi = require('./virtual-dom/virtual-li');
   var VirtualLiDetail = require('./virtual-dom/virtual-li-detail');
   var virtualRoot = require('./virtual-dom/virtual-document');
@@ -34,7 +35,7 @@
         <span>[ ' + arr.join(', ') + ' ]</span> \
           <ul>';
     for (var i = 0, j = arr.length; i < j; i++) {
-      html += '<li>' + arr[i] + '</li>';
+      html += '<li>' + i + ': ' + arr[i] + '</li>';
     }
     html += 
         '</ul> \
@@ -104,6 +105,9 @@
       this.taskBar = container.querySelector('[role="xlog-taskbar"]');
       this.dropBar = container.querySelector('[role="xlog-dropbar"]');
       this.resetPosition();
+      if (setting.display) {
+        container.style.display = 'block';
+      }
     },
     
     resetPosition: function () {

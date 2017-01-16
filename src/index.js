@@ -5,24 +5,29 @@
   
   var Xlog = {
     init: function (opts) {
-      this.initUI(opts);
+      this.initSetting(opts);
+      this.initUI();
       this.initEvents();
     },
     
-    initUI: function (opts) {
+    initSetting: function (opts) {
       setting = util.extend(setting, opts);
       if (!root.console) {
         root.console = {};
       }
-      if (setting.isGlobalParameter) {
-        window.Xlog = window.xlog = Xlog;
-      }
       if (setting.overwriteConsole) {
         root.console.log = Xlog.log;
+        root.console.debug = Xlog.debug;
         root.console.info = Xlog.info;
         root.console.warn = Xlog.warn;
         root.console.error = Xlog.error;
       }
+      if (setting.isGlobalParameter) {
+        root.Xlog = root.xlog = Xlog;
+      }
+    },
+
+    initUI: function () {
       dom.generate();
     },
     
@@ -38,6 +43,10 @@
     log: function (msg) {
       dom.print(msg, 'log');
     },
+
+    debug: function (msg) {
+      dom.print(msg, 'debug');
+    },
     
     info: function (msg) {
       dom.print(msg, 'info');
@@ -51,7 +60,7 @@
       dom.print(msg, 'warn');
     }
   };
-  
-  // module.exports = Xlog;
-  root.Xlog = Xlog;
+
+  // root.Xlog = root.xlog = Xlog;
+  module.exports = Xlog;
 }) (window, document);

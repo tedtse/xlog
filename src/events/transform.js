@@ -61,8 +61,7 @@ util.on(document, 'mousemove', function (evt) {
   }
 });
 
-util.on(container, 'mouseout', function (evt) {
-  var e = evt || event;
+util.on(container, 'mouseout', function () {
   container.style.cursor = 'default';
 });
 

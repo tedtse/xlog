@@ -4,7 +4,7 @@ var dom = require('../dom');
 var container = dom.container;
 var titleBar = dom.titleBar;
 var movable = false;
-var winWidth = document.documentElement.clientWidth;
+// var winWidth = document.documentElement.clientWidth;
 var winHeight = document.documentElement.clientHeight;
 var initX, initY, initOffsetLeft, initOffsetTop;
 

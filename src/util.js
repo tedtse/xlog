@@ -54,7 +54,7 @@ module.exports = {
     return el.offsetHeight + parseFloat(this.getStyle(el, 'paddingTop')) + parseFloat(this.getStyle(el, 'paddingBottom'));
   },
 
-  addClass (el, className) {
+  addClass: function (el, className) {
     if (el.classList) {
       return el.classList.add(className);
     }
@@ -71,7 +71,7 @@ module.exports = {
     el.className = this.trim(_className);
   },
 
-  removeClass (el, className) {
+  removeClass: function (el, className) {
     if (el.classList) {
       return el.classList.remove(className);
     }
@@ -130,7 +130,7 @@ module.exports = {
     el.removeEventListener ? el.removeEventListener(evt, handler, false) : el.detachEvent('on' + evt, handler);
   },
   
-  extend (target, options) {
+  extend: function (target, options) {
     for (name in options) {
       target[name] = options[name];
     }

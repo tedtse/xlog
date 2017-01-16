@@ -118,7 +118,7 @@
     word-break: break-all;
 }
 #xlog .xlog-body li {
-    color: #3a22d8;
+    color: #2200ff;
     line-height: 22px;
     position: relative;
     padding: 0 .7em 0 .5em;
@@ -168,7 +168,7 @@
     border-color: transparent transparent transparent #fff;
     left: -2px;
 }
-#xlog .xlog-body li.log {
+#xlog .xlog-body li.log, #xlog .xlog-body li.debug {
     border-bottom: 1px solid #f0f0f0;
     text-indent: 17px;
 }

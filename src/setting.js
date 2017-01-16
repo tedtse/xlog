@@ -6,5 +6,7 @@ module.exports = {
   overwriteConsole: false,
   
   // 是否设为全局变量(window.Xlog)，默认为否
-  isGlobalParameter: false
+  isGlobalParameter: false,
+
+  display: false
 };

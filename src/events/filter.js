@@ -2,7 +2,6 @@ var util = require('../util');
 var dom = require('../dom');
 var State = require('../state');
 
-var entity = dom.entity;
 var dropBar = dom.dropBar;
 var filterButton = dom.filterButton;
 
@@ -11,7 +10,8 @@ var map = {
   'error': 'xlog-filter-error',
   'warn': 'xlog-filter-warn',
   'info': 'xlog-filter-info',
-  'log': 'xlog-filter-log'
+  'log': 'xlog-filter-log',
+  'debug': 'xlog-filter-debug'
 };
 
 var findKey = function (role) {

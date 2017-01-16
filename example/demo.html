@@ -5,9 +5,11 @@
 <body>
   <script src="../dist/xlog.js"></script>
   <script>
-      Xlog.init();
+      Xlog.init({
+        isGlobalParameter: true
+      });
       Xlog.log({a: 1, b: 2});
-      // Xlog.log([1, 2]);
+      Xlog.debug([1, 2]);
       // Xlog.info(2);
       // Xlog.warn(3);
       // Xlog.error(4);
