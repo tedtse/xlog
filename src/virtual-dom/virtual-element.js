@@ -13,6 +13,9 @@ var _getElementById = function (parent, id) {
     } else {
       result = _getElementById(child, id);
     }
+    if (result) {
+      return result;
+    }
   }
   return result;
 };

@@ -1,6 +1,7 @@
 var util = require('../util');
 var dom = require('../dom');
-var virtualContainer = require('../virtual-dom/virtual-document');
+var virtualCache = require('../virtual-dom/virtual-cache');
+var virtualContainer = virtualCache.container;
 
 util.on(dom.entity, 'click', 'span', function (evt) {
   var e = evt || event;

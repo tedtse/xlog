@@ -3,17 +3,19 @@ var dom = require('../dom');
 
 var container = dom.container;
 var titlebar = dom.titlebar;
+var virtualCache = require('../virtual-dom/virtual-cache');
+var vritualContainer = virtualCache.container;
 var movable = false;
 // var winWidth = document.documentElement.clientWidth;
 var winHeight = document.documentElement.clientHeight;
-var initX, initY, initOffsetLeft, initOffsetTop;
+var initX, initY, initOffsetLeft, initOffsetTop, lastX, lastY;
 
 util.on(titlebar, 'mousedown', function (evt) {
   var e = evt || event;
   initX = e.clientX;
   initY = e.clientY;
-  initOffsetLeft = dom.offsetLeft - dom.marginLeft;
-  initOffsetTop = dom.offsetTop;
+  initOffsetLeft = vritualContainer.offsetLeft - vritualContainer.marginLeft;
+  initOffsetTop = vritualContainer.offsetTop;
   movable = true;
 });
 
@@ -22,15 +24,16 @@ util.on(document, 'mousemove', function (evt) {
   if (!movable) {
       return;
   }
-  var x = initOffsetLeft + e.clientX - initX;
-  var y = initOffsetTop + e.clientY - initY;
+  lastX = initOffsetLeft + e.clientX - initX;
+  lastY = initOffsetTop + e.clientY - initY;
   // x = Math.min(winWidth - container.offsetWidth, Math.max(0, x));
-  y = Math.min(winHeight - container.offsetHeight, Math.max(0, y));
-  container.style.left = x + 'px';
-  container.style.top = y + 'px';
+  lastY = Math.min(winHeight - container.offsetHeight, Math.max(0, lastY));
+  container.style.left = lastX + 'px';
+  container.style.top = lastY + 'px';
 });
 
-util.on(document, 'mouseup', function (evt) {
-  var e = evt || event;
+util.on(document, 'mouseup', function () {
   movable = false;
+  vritualContainer.offsetLeft = lastX + vritualContainer.marginLeft;
+  vritualContainer.offsetTop = lastY;
 });
