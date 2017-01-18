@@ -91,9 +91,6 @@
       this.titlebar = container.querySelector('[role="xlog-titlebar"]');
       this.taskbar = container.querySelector('[role="xlog-taskbar"]');
       this.dropbar = container.querySelector('[role="xlog-dropbar"]');
-      // if (setting.display) {
-      //   container.style.display = 'block';
-      // }
       require('./virtual-dom/virtual-document');
     },
     

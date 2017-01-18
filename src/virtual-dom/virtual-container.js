@@ -5,7 +5,6 @@ var VirtualContainer = function () {
   VirtualElement.call(this);
   this.tagName = 'VIRTUALCONTAINER';
   this.display = 'hidden';
-  this.isInitializedOffset = false;
   this.offsetWidth = 0;
   this.offsetHeight = 0;
   this.offsetLeft = 0;

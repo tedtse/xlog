@@ -1,5 +1,6 @@
 var util = require('../util');
 var dom = require('../dom');
+var Bus = require('../bus');
 var setting = require('../setting');
 var virtualCache = require('../virtual-dom/virtual-cache');
 var virtualContainer = virtualCache.container;
@@ -7,10 +8,7 @@ var virtualContainer = virtualCache.container;
 var _show = function () {
   dom.show();
   virtualContainer.display = 'show';
-  if (!virtualContainer.isInitializedOffset) {
-    virtualContainer.getOffset();
-    virtualContainer.isInitializedOffset = true;
-  }
+  Bus.dispatch('CONTAINER_SHOW');
 };
 
 var _hide = function () {
