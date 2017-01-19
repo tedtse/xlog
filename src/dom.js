@@ -16,11 +16,11 @@
         break;
       case String:
         result.instance = 'string';
-        result.html = util.htmlEncode(obj);
+        result.html = '<div class="xlog-list-detail">' + util.htmlEncode(obj) + '</div>';
         break;
       default:
         result.instance = 'other';
-        result.html = obj;
+        result.html ='<div class="xlog-list-detail">' + obj + '</div>';
         break;
     }
     return result;
@@ -29,14 +29,14 @@
   var _arrayToHTML = function (arr) {
     var html = 
       '<div class="xlog-list-detail"> \
-        <span>[ ' + arr.join(', ') + ' ]</span> \
-          <ul>';
+        <p>Array [ <span>' + arr.join(', ') + '</span> ]</p> \
+        <ul>';
     for (var i = 0, j = arr.length; i < j; i++) {
       html += '<li>' + i + ': ' + arr[i] + '</li>';
     }
     html += 
-        '</ul> \
-      </div>';
+      '</ul> \
+    </div>';
     return html;
   };
 
@@ -48,14 +48,14 @@
     }
     html = 
       '<div class="xlog-list-detail"> \
-        <span>{ ' + arr.join(', ') + ' }</span> \
-          <ul>';
+        <p>Object { <span>' + arr.join(', ') + '</span> }</p> \
+        <ul>';
     for (var i = 0, j = arr.length; i < j; i++) {
       html += '<li>' + arr[i] + '</li>';
     }
     html += 
-        '</ul> \
-      </div>';
+      '</ul> \
+    </div>';
     return html;
   };
   
@@ -128,18 +128,22 @@
       }
     },
     
-    print: function (msg, level) {
+    print: function () {
+      var args = Array.prototype.slice.call(arguments);
       var entity = this.entity;
-      if (!entity) {
+      if (!args.length || !entity) {
         return;
       }
-      level = level || 'log';
-      var li = document.createElement('LI');
-      var fmt = _msgFormat(msg);
-      li.className = level;
-      li.innerHTML = fmt.html;
-      entity.appendChild(li);
-      Bus.dispatch('PRINT', level, fmt, li);
+      var level = args[0] || 'log';
+      var _args = args.slice(1);
+      for (var i = 0, j = _args.length; i < j; i++) {
+        var li = document.createElement('LI');
+        var fmt = _msgFormat(_args[i]);
+        li.className = level;
+        li.innerHTML = fmt.html;
+        entity.appendChild(li);
+        Bus.dispatch('PRINT', level, fmt, li);
+      }
     }
   };
 }) (window, document);

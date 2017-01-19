@@ -54,16 +54,16 @@ util.on(filterButton, 'click', function () {
     dropbar.style.display = "block";
     util.addClass(filterButton, 'active');
     Bus.dispatch('DROPBAR_SHOW');
-    bHeight = virtualBody.offsetHeight - virtualDropbar.offsetHeight;
+    bHeight = virtualBody.height - virtualDropbar.offsetHeight;
     body.style.height = bHeight + 'px';
-    virtualBody.offsetHeight = bHeight;
+    virtualBody.height = bHeight;
     virtualDropbar.display = 'show';
   } else {
     dropbar.style.display = "none";
     util.removeClass(filterButton, 'active');
-    bHeight = virtualBody.offsetHeight + virtualDropbar.offsetHeight;
+    bHeight = virtualBody.height + virtualDropbar.offsetHeight;
     body.style.height = bHeight + 'px';
-    virtualBody.offsetHeight = bHeight;
+    virtualBody.height = bHeight;
     virtualDropbar.offsetHeight = 0;
     virtualDropbar.display = 'hidden';
   }

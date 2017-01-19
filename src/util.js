@@ -42,6 +42,18 @@ module.exports = {
     return result;
   },
 
+  closest: function (el, selector) {
+    var pNode = el.parentNode;
+    while (pNode) {
+      if (this.is(pNode, selector)) {
+        return pNode;
+      } else {
+        pNode = pNode.parentNode;
+      }
+    }
+    return null;
+  },
+
   trim: function (str) {
     return str.replace(/^\s*|\s*$/, '');
   },

@@ -3,10 +3,10 @@ var dom = require('../dom');
 var virtualCache = require('../virtual-dom/virtual-cache');
 var virtualContainer = virtualCache.container;
 
-util.on(dom.entity, 'click', 'span', function (evt) {
+var _detailToggle = function (evt, selector) {
   var e = evt || event;
   var target = e.target || e.srcElement;
-  var li = target.parentNode.parentNode;
+  var li = util.closest(target, 'li');
   var virtualId = li.getAttribute('data-virtual-id');
   var virtualLi = virtualContainer.getElementById(virtualId);
   var virtualDetailTitle = virtualLi.getElmentsByTagName('virtuallidetailtitle')[0];
@@ -24,4 +24,11 @@ util.on(dom.entity, 'click', 'span', function (evt) {
     virtualDetailTitle.toggle = 'on';
     virtualDetailContent.display = 'show';
   }
+};
+
+util.on(dom.entity, 'click', 'p', function (evt) {
+  _detailToggle(evt, 'p');
+});
+util.on(dom.entity, 'click', 'span', function (evt) {
+  _detailToggle(evt, 'span');
 });

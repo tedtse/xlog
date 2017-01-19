@@ -41,24 +41,34 @@
       _initEvents();
     },
 
-    log: function (msg) {
-      dom.print(msg, 'log');
+    log: function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.splice(0, 0, 'log');
+      dom.print.apply(dom, args);
     },
 
-    debug: function (msg) {
-      dom.print(msg, 'debug');
+    debug: function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.splice(0, 0, 'debug');
+      dom.print.apply(dom, args);
     },
     
-    info: function (msg) {
-      dom.print(msg, 'info');
+    info: function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.splice(0, 0, 'info');
+      dom.print.apply(dom, args);
     },
     
-    error: function (msg) {
-      dom.print(msg, 'error');
+    error: function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.splice(0, 0, 'error');
+      dom.print.apply(dom, args);
     },
     
-    warn: function (msg) {
-      dom.print(msg, 'warn');
+    warn: function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.splice(0, 0, 'warn');
+      dom.print.apply(dom, args);
     }
   };
 

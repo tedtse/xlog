@@ -19,7 +19,7 @@ VirtualBody.prototype.getWidth = function () {
 };
 VirtualBody.prototype.getHeight = function () {
   var body = this.nativeElement;
-  this.offsetHeight = body.offsetHeight - parseFloat(util.getStyle(body, 'borderTopWidth')) - parseFloat(util.getStyle(body, 'borderBottomWidth'));
+  this.height = parseFloat(util.getStyle(body, 'height'));
 };
 
 module.exports = VirtualBody;
