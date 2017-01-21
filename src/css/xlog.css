@@ -27,6 +27,7 @@
     bottom: 0;
     margin-left: -300px;
     font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
     display: none;
 }
 #xlog h3 {
@@ -118,23 +119,27 @@
     word-break: break-all;
 }
 #xlog .xlog-body li {
-    color: #2200ff;
+    color: #333;
     line-height: 22px;
     position: relative;
     padding: 0 .7em 0 .5em;
-    text-indent: 18px;
+    text-indent: .5em;
+}
+#xlog .xlog-body li .xlog-key {
+    color: #881391;
 }
 #xlog .xlog-list-detail {
-    margin-left: 18px;
     text-indent: 0;
+    display: inline-block;
+    vertical-align: top;
 }
-#xlog .xlog-list-detail p {
+#xlog .xlog-list-detail .figure {
     cursor: pointer;
     display: inline-block;
     font-style: normal;
     text-indent: 0;
 }
-#xlog .xlog-list-detail p:before {
+#xlog .xlog-list-detail .figure:before {
     content: "";
     border-style: solid;
     border-color: transparent transparent transparent #555;
@@ -144,19 +149,19 @@
     height: 0;
     margin-right: -2px;
 }
-#xlog .xlog-list-detail p.on:before {
+#xlog .xlog-list-detail .figure.on:before {
     border-color: #555 transparent transparent transparent;
     border-width: 7px 4px;
     margin-right: 4px;
     vertical-align: -6px;
 }
-#xlog .xlog-list-detail p span {
+#xlog .xlog-list-detail .figure p {
     display: inline-block;
     max-width: 150px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    vertical-align: bottom;
+    vertical-align: top;
 }
 #xlog .xlog-list-detail ul {
     display: none;
@@ -164,8 +169,10 @@
 #xlog .xlog-list-detail li {
     line-height: 1.2em;
 }
-#xlog .xlog-body li.edit:before, #xlog .xlog-body li.edit:after {
+#xlog .xlog-body li:before {
     content: "";
+}
+#xlog .xlog-body li.edit:before, #xlog .xlog-body li.edit:after {
     position: absolute;
     border-style: solid;
     border-width: 4px;
@@ -184,37 +191,39 @@
 #xlog .xlog-body li.log, #xlog .xlog-body li.debug, #xlog .xlog-body li.info {
     border-bottom: 1px solid #f0f0f0;
 }
+#xlog .xlog-body li.log:before, #xlog .xlog-body li.debug:before {
+    width: 18px;
+    height: 12px;
+    float: left;
+}
 #xlog .xlog-body li.info:before {
-    content: "";
     width: 12px;
     height: 12px;
     background-position: -43px 0;
     float: left;
-    margin: 5px 0 0 0;
+    margin: 5px 6px 0 0;
 }
 #xlog .xlog-body li.warn {
     background-color: #fffbe6;
     border-bottom: 1px solid #fff5c2;
 }
 #xlog .xlog-body li.warn:before {
-    content: "";
     width: 11px;
     height: 12px;
     background-position: -57px 0;
     float: left;
-    margin: 5px 0 0 0;
+    margin: 5px 7px 0 0;
 }
 #xlog .xlog-body li.error {
     background-color: #fff0f0;
     border-bottom: 1px solid #ffd7d7;
 }
 #xlog .xlog-body li.error:before {
-    content: "";
     width: 13px;
     height: 12px;
     background-position: -71px 0;
     float: left;
-    margin: 5px 0 0 0;
+    margin: 5px 5px 0 0;
 }
 .clearfix:after {
     content: "";

@@ -6,7 +6,7 @@ var _getElementById = function (parent, id) {
   if (!children.length) {
     return result;
   }
-  for (var i = children.length; i--;) {
+  for (var i = 0, j = children.length; i < j; i++) {
     var child = children[i];
     if (id === child.id) {
         return child;
@@ -27,7 +27,7 @@ var _getElmentsByTagName = function (parent, tagName) {
   if (!children.length) {
     return result;
   }
-  for (var i = children.length; i--;) {
+  for (var i = 0, j = children.length; i < j; i++) {
     var child = children[i];
     if (tagName === child.tagName) {
       result.push(child);

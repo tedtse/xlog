@@ -16,7 +16,7 @@ VirtualLiDetail.prototype.fullMap = function (el) {
   this.nativeElement = el;
   var title = this.getElmentsByTagName('virtuallidetailtitle')[0];
   var content = this.getElmentsByTagName('virtuallidetailcontent')[0];
-  title.nativeElement = el.querySelector('p');
+  title.nativeElement = el.querySelector('.figure');
   content.nativeElement = el.querySelector('ul');
 };
 

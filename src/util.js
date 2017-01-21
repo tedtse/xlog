@@ -22,19 +22,16 @@ module.exports = {
 
   is: function (el, selector) {
     var result = false;
-    var match = null;
     if (matchExpr.ID.test(selector)) {
-      match = el.id.match(matchExpr.ID);
-      if (match && match[1] === selector) {
-        result = true;
-      }
+      selector = selector.replace(/^#/, '');
+      var patt = new RegExp(selector);
+      result = patt.test(el.id);
     } else if (matchExpr.CLASS.test(selector)) {
-      match = el.className.match(matchExpr.CLASS);
-      if (match && match[1] === selector) {
-        result = true;
-      }
+      selector = selector.replace(/^\./, '');
+      var patt = new RegExp(selector);
+      result = patt.test(el.className);
     } else if (matchExpr.TAG.test(selector)) {
-      match = el.nodeName.match(matchExpr.TAG);
+      var match = el.nodeName.match(matchExpr.TAG);
       if (match && match[1].toLowerCase() === selector.toLowerCase()) {
         result = true;
       }
