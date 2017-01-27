@@ -29,7 +29,12 @@ virtualCache.entity = virtualEntiny;
 
 Bus.once('CONTAINER_SHOW', function () {
   virtualContainer.getOffset();
+  virtualHead.getHeight();
   virtualBody.getPadding();
+  virtualBody.getHeight();
+});
+Bus.on('DROPBAR_SHOW', function () {
+  virtualDropbar.getHeight();
 });
 
 console.log(virtualContainer);

@@ -43,7 +43,6 @@
     cursor: move;
 }
 #xlog h3 a.close {
-    display: inline-block;
     width: 16px;
     height: 18px;
     float: right;

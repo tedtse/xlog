@@ -71,10 +71,7 @@ util.on(document, 'mousemove', function (evt) {
   }
   if (cursor === 's-resize') {
     var _cHeight = initOffsetHeight + curY - initY;
-    if (headHeight === undefined) {
-      headHeight = head.offsetHeight;
-    }
-    var _xbHeight = _cHeight - headHeight - virtualBody.paddingTop - virtualBody.paddingBottom;
+    var _xbHeight = _cHeight - virtualHead.offsetHeight - virtualBody.paddingTop - virtualBody.paddingBottom;
     container.style.height = _cHeight + 'px';
     body.style.height = _xbHeight + 'px';
     virtualContainer.offsetHeight = _cHeight;
