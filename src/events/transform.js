@@ -11,11 +11,10 @@ var virtualBody = virtualCache.body;
 var dragable = false;
 var transable = false;
 var threshold = 10;
-var headHeight;
-var initX, initY, curX, curY, initOffsetWidth, initOffsetHeight, initOffsetLeft, cursor;
+var initX, initY, curX, curY, initOffsetWidth, initOffsetHeight, initLeft, cursor;
 
 util.on(container, 'mousedown', function (evt) {
-  var e = evt || event;
+  var e = evt || window.event;
   if (!dragable) {
       return;
   }
@@ -24,29 +23,29 @@ util.on(container, 'mousedown', function (evt) {
   initY = e.clientY;
   initOffsetWidth = virtualContainer.offsetWidth;
   initOffsetHeight = virtualContainer.offsetHeight;
-  initOffsetLeft = virtualContainer.offsetLeft;
+  initLeft = virtualContainer.left;
 });
 
 util.on(document, 'mousemove', function (evt) {
   if (virtualContainer.display !== 'show') {
     return;
   }
-  var e = evt || event;
+  var e = evt || window.event;
   curX = e.clientX;
   curY = e.clientY;
-  if (Math.abs(virtualContainer.offsetLeft + virtualContainer.offsetWidth - curX) <= threshold) {
+  if (Math.abs(virtualContainer.left + virtualContainer.marginLeft + virtualContainer.offsetWidth - curX) <= threshold) {
     container.style.cursor = 'e-resize';
     cursor = 'e-resize';
     dragable = true;
-  } else if (Math.abs(virtualContainer.offsetLeft - curX) <= threshold) {
+  } else if (Math.abs(virtualContainer.left + virtualContainer.marginLeft - curX) <= threshold) {
     container.style.cursor = 'w-resize';
     cursor = 'w-resize';
     dragable = true;
-  } else if (Math.abs(virtualContainer.offsetTop + virtualContainer.offsetHeight - curY) <= threshold) {
+  } else if (Math.abs(virtualContainer.top + virtualContainer.offsetHeight - curY) <= threshold) {
     container.style.cursor = 's-resize';
     cursor = 's-resize';
     dragable = true;
-  // } else if (curX > virtualContainer.offsetLeft && curX < virtualContainer.offsetLeft + virtualContainer.offsetWidth && curY > virtualContainer.offsetTop && curY < virtualContainer.offsetTop + virtualContainer.offsetHeight) {
+  // } else if (curX > virtualContainer.left && curX < virtualContainer.left + virtualContainer.offsetWidth && curY > virtualContainer.top && curY < virtualContainer.top + virtualContainer.offsetHeight) {
   } else {
     container.style.cursor = 'default';
     dragable = false;
@@ -63,11 +62,11 @@ util.on(document, 'mousemove', function (evt) {
   if (cursor === 'w-resize') {
     var deltaX = curX - initX;
     var _width = initOffsetWidth - deltaX;
-    var _left = initOffsetLeft + deltaX - virtualContainer.marginLeft;
+    var _left = initLeft + deltaX;
     container.style.width = _width + 'px';
     container.style.left = _left + 'px';
     virtualContainer.offsetWidth = _width;
-    virtualContainer.offsetLeft = _left + virtualContainer.marginLeft;
+    virtualContainer.left = _left;
   }
   if (cursor === 's-resize') {
     var _cHeight = initOffsetHeight + curY - initY;
@@ -75,7 +74,7 @@ util.on(document, 'mousemove', function (evt) {
     container.style.height = _cHeight + 'px';
     body.style.height = _xbHeight + 'px';
     virtualContainer.offsetHeight = _cHeight;
-    virtualBody.offsetHeight = _xbHeight;
+    virtualBody.height = _xbHeight;
   }
 });
 

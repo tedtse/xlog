@@ -16,6 +16,10 @@ var _hide = function () {
   virtualContainer.display = 'hidden';
 };
 
+if (setting.display) {
+  _show();
+}
+
 util.on(document, 'keydown', function (evt) {
   var e = evt || event;
   var keyCode = e.keyCode;

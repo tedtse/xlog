@@ -12,13 +12,16 @@
   <script src="../dist/xlog.js"></script>
   <script>
       Xlog.init({
-        isGlobalParameter: true
+        isGlobalParameter: true,
+        display: true
       });
       Xlog.log({a: 1, b: [2, 3]}, 1);
-      Xlog.info([1, 2]);
-      Xlog.info('fffffffffffffffffffffffffeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
-      Xlog.warn(3);
-      Xlog.error(4);
+      // Xlog.info([1, 2]);
+      // Xlog.info('fffffffffffffffffffffffffeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+      // Xlog.warn(3);
+      // Xlog.error(4);
+      // console.log(window.__container__);
+      // xlog.log(window.__container__);
   </script>
 </body>
 </html>

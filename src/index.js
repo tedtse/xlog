@@ -1,4 +1,4 @@
-; (function (root, doc) {
+; (function (root) {
   var util = require('./util');
   var setting = require('./setting');
   var dom = require('./dom');
@@ -22,6 +22,7 @@
 
   var _initUI = function () {
     dom.generate();
+    require('./virtual-dom/virtual-document');
   };
 
   var _initEvents = function () {
@@ -31,7 +32,6 @@
     require('./events/move');
     require('./events/toggle');
     require('./events/transform');
-    require('./events/print');
   };
 
   var Xlog = {
@@ -44,31 +44,31 @@
     log: function () {
       var args = Array.prototype.slice.call(arguments);
       args.splice(0, 0, 'log');
-      dom.print.apply(dom, args);
+      dom.write.apply(dom, args);
     },
 
     debug: function () {
       var args = Array.prototype.slice.call(arguments);
       args.splice(0, 0, 'debug');
-      dom.print.apply(dom, args);
+      dom.write.apply(dom, args);
     },
     
     info: function () {
       var args = Array.prototype.slice.call(arguments);
       args.splice(0, 0, 'info');
-      dom.print.apply(dom, args);
+      dom.write.apply(dom, args);
     },
     
     error: function () {
       var args = Array.prototype.slice.call(arguments);
       args.splice(0, 0, 'error');
-      dom.print.apply(dom, args);
+      dom.write.apply(dom, args);
     },
     
     warn: function () {
       var args = Array.prototype.slice.call(arguments);
       args.splice(0, 0, 'warn');
-      dom.print.apply(dom, args);
+      dom.write.apply(dom, args);
     }
   };
 
@@ -77,4 +77,4 @@
   } else {
     module.exports = Xlog;
   }
-}) (window, document);
+}) (window);

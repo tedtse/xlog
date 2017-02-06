@@ -28,13 +28,13 @@ virtualCache.body = virtualBody;
 virtualCache.entity = virtualEntiny;
 
 Bus.once('CONTAINER_SHOW', function () {
-  virtualContainer.getOffset();
-  virtualHead.getHeight();
-  virtualBody.getPadding();
-  virtualBody.getHeight();
+  virtualContainer.syncProperty('offsetWidth', 'offsetHeight');
+  virtualContainer.syncStyle('marginLeft', 'left', 'top');
+  virtualHead.syncProperty('offsetHeight');
+  virtualBody.syncStyle('paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'height');
 });
 Bus.on('DROPBAR_SHOW', function () {
-  virtualDropbar.getHeight();
+  virtualDropbar.syncProperty('offsetHeight');
 });
 
-console.log(virtualContainer);
+window.__container__ = virtualContainer;

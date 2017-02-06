@@ -5,29 +5,38 @@
   
   var _msgFormat = function (obj) {
     var result = {};
+    var startStr = '<div class="xlog-list-detail">';
+    var endStr = '</div>'
+    if (!obj) {
+      return result;
+    }
     switch (obj.constructor) {
       case Array:
         result.instance = 'array';
-        result.html = _arrayToHTML(obj);
+        result.html = startStr + _arrayToHTML(obj) + endStr;
         break;
       case Object:
         result.instance = 'object';
-        result.html = _objectToHTML(obj);
+        result.html = startStr + _objectToHTML(obj) + endStr;
         break;
       case String:
         result.instance = 'string';
-        result.html = '<div class="xlog-list-detail">' + util.htmlEncode(obj) + '</div>';
+        result.html = startStr + util.htmlEncode(obj) + endStr;
         break;
       default:
         result.instance = 'other';
-        result.html = '<div class="xlog-list-detail">' + obj + '</div>';
+        result.html = startStr + obj + endStr;
         break;
     }
+    result.content = obj;
     return result;
   };
 
   var _objectSummary = function (obj) {
     var result = '';
+    if (!obj) {
+      return result;
+    }
     switch (obj.constructor) {
       case Array:
         result = 'Array<i>[</i>' + obj.length + '<i>]</i>';
@@ -42,6 +51,27 @@
     return result;
   };
 
+  var _objectDetail = function (obj) {
+    var html = '';
+    if (!obj) {
+      return html;
+    }
+    if (obj.constructor === Array) {
+      html += '<ul>';
+      for (var i = 0, j = obj.length; i < j; i++) {
+        html += '<li><span class="xlog-key">' + i + '</span>: <span class="xlog-value">' + _objectSummary(obj[i]) + '</span></li>';
+      }
+      html += '</ul>';
+    } else if (obj.constructor === Object) {
+      html += '<ul>';
+      for (var i in obj) {
+        html += '<li><span class="xlog-key">' + i + '</span>: <span class="xlog-value">' + _objectSummary(obj[i]) + '</span></li>';
+      }
+      html += '</ul>';
+    }
+    return html;
+  };
+
   var _arrayToHTML = function (arr) {
     var length = arr.length;
     var _arr = arr.slice(0, length);
@@ -49,61 +79,18 @@
       _arr[i] = _objectSummary(_arr[i]);
     }
     var html = 
-      '<div class="xlog-list-detail"> \
-        <div class="figure">Array <i>[</i> <p>' + _arr.join(', ') + '</p> <i>]</i></div> \
-        <ul>';
-    for (var i = 0; i < length; i++) {
-      var item = arr[i];
-      switch (item.constructor) {
-        case Array:
-          html += '<li><span class="xlog-key">' + i + '</span>: <span class="xlog-value">' + _arrayToHTML(item) + '</span></li>';
-          break;
-        case Object:
-          html += '<li><span class="xlog-key">' + i + '</span>: <span class="xlog-value">' + _objectToHTML(item) + '</span></li>';
-          break;
-        default:
-          html += '<li><span class="xlog-key">' + i + '</span>: <span class="xlog-value">' + item + '</span></li>';
-          break;
-      }
-    }
-    html += 
-        '</ul> \
-      </div>';
+      '<div class="figure">Array <i>[</i> <p>' + _arr.join(', ') + '</p> <i>]</i></div>';
     return html;
   };
 
   var _objectToHTML = function (obj) {
     var titleArray = [];
-    var entityArray = [];
     var html = '';
     for (var key in obj) {
       titleArray.push('<span class="xlog-key">' + key + '</span>: <span class="xlog-value">' + _objectSummary(obj[key]) + '</span>'); 
-      entityArray.push({
-        key: key,
-        value: obj[key]
-      }); 
     }
     html = 
-      '<div class="xlog-list-detail"> \
-        <div class="figure">Object <i>{</i> <p>' + titleArray.join(', ') + '</p> <i>}</i></div> \
-        <ul>';
-    for (var i = 0, j = entityArray.length; i < j; i++) {
-      var item = entityArray[i];
-      switch (item.value.constructor) {
-        case Array:
-          html += '<li><span class="xlog-key">' + item.key + '</span>: <span class="xlog-value">' + _arrayToHTML(item.value) + '</span></li>';
-          break;
-        case Object:
-          html += '<li><span class="xlog-key">' + item.key + '</span>: <span class="xlog-value">' + _objectToHTML(item.value) + '</span></li>';
-          break;
-        default:
-          html += '<li><span class="xlog-key">' + item.key + '</span>: <span class="xlog-value">' + item.value + '</span></li>';
-          break;
-      }
-    }
-    html += 
-        '</ul> \
-      </div>';
+      '<div class="figure">Object <i>{</i> <p>' + titleArray.join(', ') + '</p> <i>}</i></div>';
     return html;
   };
   
@@ -139,7 +126,6 @@
       this.titlebar = container.querySelector('[role="xlog-titlebar"]');
       this.taskbar = container.querySelector('[role="xlog-taskbar"]');
       this.dropbar = container.querySelector('[role="xlog-dropbar"]');
-      require('./virtual-dom/virtual-document');
     },
     
     generate: function () {
@@ -176,7 +162,7 @@
       }
     },
     
-    print: function () {
+    write: function () {
       var args = Array.prototype.slice.call(arguments);
       var entity = this.entity;
       if (!args.length || !entity) {
@@ -190,8 +176,12 @@
         li.className = level;
         li.innerHTML = fmt.html;
         entity.appendChild(li);
-        Bus.dispatch('PRINT', level, fmt, li);
+        Bus.dispatch('WRITE', level, fmt, li);
       }
+    },
+
+    generateDetail: function (liDetail, content) {
+      liDetail.innerHTML += _objectDetail(content);
     }
   };
 }) (window, document);

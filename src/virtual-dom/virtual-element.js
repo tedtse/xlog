@@ -1,3 +1,5 @@
+var util = require('../util');
+
 var incrementId = 0;
 
 var _getElementById = function (parent, id) {
@@ -68,6 +70,22 @@ VirtualElement.prototype = {
   },
   getElmentsByTagName: function (tagName) {
     return _getElmentsByTagName(this, tagName);
+  },
+  syncProperty () {
+    var args = Array.prototype.slice.call(arguments);
+    var element = this.nativeElement;
+    for (var i = 0, j = args.length; i < j; i++) {
+      var key = args[i];
+      this[key] = element[key];
+    }
+  },
+  syncStyle () {
+    var args = Array.prototype.slice.call(arguments);
+    var element = this.nativeElement;
+    for (var i = 0, j = args.length; i < j; i++) {
+      var key = args[i];
+      this[key] = parseFloat(util.getStyle(element, key));
+    }
   }
 };
 

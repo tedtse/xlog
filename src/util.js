@@ -110,14 +110,14 @@ module.exports = {
 		el.className = _className;
   },
 
-  on: function (node, evt, handler) {
+  on: function () {
     var args = arguments;
-    var el, evt, selector, handler;
+    var el, evt, selector, handler, _handler;
     if (args.length === 3) {
       el = args[0];
       evt = args[1];
       handler = args[2];
-      el.addEventListener ? el.addEventListener(evt, handler, false) : el.attachEvent('on' + evt, handler);
+      _handler = handler;
     } else if (args.length === 4) {
       el = args[0];
       evt = args[1];
@@ -127,12 +127,16 @@ module.exports = {
       var _handler = function (evt) {
         var e = evt || event;
         var target = e.target || e.srcElement;
-        if (that.is(target, selector)) {
-          handler(evt);
+        while (target) {
+          if (that.is(target, selector)) {
+            handler(evt);
+            break;
+          }
+          target = target.parentNode;
         }
       };
-      el.addEventListener ? el.addEventListener(evt, _handler, false) : el.attachEvent('on' + evt, _handler);
     }
+    el.addEventListener ? el.addEventListener(evt, _handler, false) : el.attachEvent('on' + evt, _handler);
   },
 
   off: function (node, evt, handler) {

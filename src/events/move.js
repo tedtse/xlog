@@ -8,24 +8,24 @@ var virtualContainer = virtualCache.container;
 var movable = false;
 var winWidth = document.documentElement.clientWidth;
 var winHeight = document.documentElement.clientHeight;
-var initX, initY, initOffsetLeft, initOffsetTop, lastX, lastY;
+var initX, initY, initLeft, initTop, lastX, lastY;
 
 util.on(titlebar, 'mousedown', function (evt) {
-  var e = evt || event;
+  var e = evt || window.event;
   initX = e.clientX;
   initY = e.clientY;
-  initOffsetLeft = virtualContainer.offsetLeft - virtualContainer.marginLeft;
-  initOffsetTop = virtualContainer.offsetTop;
+  initLeft = virtualContainer.left;
+  initTop = virtualContainer.top;
   movable = true;
 });
 
 util.on(document, 'mousemove', function (evt) {
-  var e = evt || event;
+  var e = evt || window.event;
   if (!movable) {
       return;
   }
-  lastX = initOffsetLeft + e.clientX - initX;
-  lastY = initOffsetTop + e.clientY - initY;
+  lastX = initLeft + e.clientX - initX;
+  lastY = initTop + e.clientY - initY;
   lastX = Math.min(winWidth - virtualContainer.marginLeft - virtualContainer.offsetWidth, Math.max(-virtualContainer.marginLeft, lastX));
   lastY = Math.min(winHeight - virtualContainer.offsetHeight, Math.max(0, lastY));
   container.style.left = lastX + 'px';
@@ -37,6 +37,6 @@ util.on(document, 'mouseup', function () {
       return;
   }
   movable = false;
-  virtualContainer.offsetLeft = lastX + virtualContainer.marginLeft;
-  virtualContainer.offsetTop = lastY;
+  virtualContainer.left = lastX;
+  virtualContainer.top = lastY;
 });
