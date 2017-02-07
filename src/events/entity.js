@@ -12,16 +12,14 @@ var virtualEntity = virtualCache.entity;
 util.on(dom.entity, 'click', '.figure', function (evt) {
   var e = evt || event;
   var target = e.target || e.srcElement;
-  var li = util.closest(target, 'li');
-  var virtualId = li.getAttribute('data-virtual-id');
-  var virtualLi = virtualContainer.getElementById(virtualId);
-  var virtualDetail = virtualLi.getElmentsByTagName('virtuallidetail')[0];
+  var liDetail = util.closest(target, '.xlog-list-detail');
+  var virtualId = liDetail.getAttribute('data-virtual-id');
+  var virtualDetail = virtualContainer.getElementById(virtualId);
   var virtualDetailTitle = virtualDetail.getElmentsByTagName('virtuallidetailtitle')[0];
   var virtualDetailContent = virtualDetail.getElmentsByTagName('virtuallidetailcontent')[0];
   var title = virtualDetailTitle.nativeElement;
   var content = virtualDetailContent.nativeElement;
   if (!content) {
-    var liDetail = li.querySelector('.xlog-list-detail');
     dom.generateDetail(liDetail, virtualDetail.content);
     virtualDetail.mapContent();
     content = virtualDetailContent.nativeElement;
@@ -39,11 +37,17 @@ util.on(dom.entity, 'click', '.figure', function (evt) {
   }
 });
 
+Bus.on('WRITE_DETAIL', function (liDetail, content) {
+  var virtualLiDetail = new VirtualLiDetail(content);
+  virtualLiDetail.map(liDetail);
+  liDetail.setAttribute('data-virtual-id', virtualLiDetail.id);
+  virtualLiDetail.mapTitle();
+});
+
 Bus.on('WRITE', function (level, fmt, li) {
   var virtualLi = new VirtualLi(level);
   virtualEntity.appendChild(virtualLi);
   virtualLi.map(li);
-  li.setAttribute('data-virtual-id', virtualLi.id);
   if (fmt.instance === 'string' || fmt.instance === 'other') {
     return;
   }
@@ -52,6 +56,7 @@ Bus.on('WRITE', function (level, fmt, li) {
   if (!liDetail) {
     return;
   }
+  liDetail.setAttribute('data-virtual-id', virtualLiDetail.id);
   virtualLi.appendChild(virtualLiDetail);
   virtualLiDetail.map(liDetail);
   virtualLiDetail.mapTitle();

@@ -3,29 +3,34 @@
   var setting = require('./setting');
   var Bus = require('./bus');
   
+  var DETAIL_START_STRING = '<div class="xlog-list-detail">';
+  var DETAIL_END_STRING = '</div>';
+  var ARRAY_START_STRING = '<div class="figure">Array <i>[</i> <p>';
+  var ARRAY_END_STRING = '</p> <i>]</i></div>';
+  var OBJECT_START_STRING = '<div class="figure">Object <i>{</i> <p>';
+  var OBJECT_END_STRING = '</p> <i>}</i></div>';
+
   var _msgFormat = function (obj) {
     var result = {};
-    var startStr = '<div class="xlog-list-detail">';
-    var endStr = '</div>'
     if (!obj) {
       return result;
     }
     switch (obj.constructor) {
       case Array:
         result.instance = 'array';
-        result.html = startStr + _arrayToHTML(obj) + endStr;
+        result.html = DETAIL_START_STRING + _arrayToHTML(obj) + DETAIL_END_STRING;
         break;
       case Object:
         result.instance = 'object';
-        result.html = startStr + _objectToHTML(obj) + endStr;
+        result.html = DETAIL_START_STRING + _objectToHTML(obj) + DETAIL_END_STRING;
         break;
       case String:
         result.instance = 'string';
-        result.html = startStr + util.htmlEncode(obj) + endStr;
+        result.html = DETAIL_START_STRING + util.htmlEncode(obj) + DETAIL_END_STRING;
         break;
       default:
         result.instance = 'other';
-        result.html = startStr + obj + endStr;
+        result.html = DETAIL_START_STRING + obj + DETAIL_END_STRING;
         break;
     }
     result.content = obj;
@@ -39,10 +44,10 @@
     }
     switch (obj.constructor) {
       case Array:
-        result = 'Array<i>[</i>' + obj.length + '<i>]</i>';
+        result = DETAIL_START_STRING + ARRAY_START_STRING + obj.length + ARRAY_END_STRING + DETAIL_END_STRING;
         break;
       case Object:
-        result = 'Object';
+        result = DETAIL_START_STRING + OBJECT_START_STRING + OBJECT_END_STRING + DETAIL_END_STRING;
         break;
       default:
         result = obj;
@@ -79,7 +84,7 @@
       _arr[i] = _objectSummary(_arr[i]);
     }
     var html = 
-      '<div class="figure">Array <i>[</i> <p>' + _arr.join(', ') + '</p> <i>]</i></div>';
+      ARRAY_START_STRING + _arr.join(', ') + ARRAY_END_STRING;
     return html;
   };
 
@@ -90,7 +95,7 @@
       titleArray.push('<span class="xlog-key">' + key + '</span>: <span class="xlog-value">' + _objectSummary(obj[key]) + '</span>'); 
     }
     html = 
-      '<div class="figure">Object <i>{</i> <p>' + titleArray.join(', ') + '</p> <i>}</i></div>';
+      OBJECT_START_STRING + titleArray.join(', ') + OBJECT_END_STRING;
     return html;
   };
   
@@ -182,6 +187,7 @@
 
     generateDetail: function (liDetail, content) {
       liDetail.innerHTML += _objectDetail(content);
+      Bus.dispatch('WRITE_DETAIL', liDetail, content);
     }
   };
 }) (window, document);
