@@ -9,6 +9,22 @@ var VirtualLiDetailContent = require('../virtual-dom/virtual-li-detail-content')
 var virtualContainer = virtualCache.container;
 var virtualEntity = virtualCache.entity;
 
+var _generateVirtualTree = function (parent, key, value) {
+  var virtualLiDetail = new VirtualLiDetail(key, value);
+  var virtualDetailTitle = virtualLiDetail.getElmentsByTagName('virtuallidetailtitle')[0];
+  var virtualDetailContent = virtualLiDetail.getElmentsByTagName('virtuallidetailcontent')[0];
+  if (value.constructor === Array) {
+    for (var i = 0, j = value.length; i < j; i++) {
+      _generateVirtualTree(virtualDetailContent, i, value[i]);
+    }
+  } else if (value.constructor === Object) {
+    for (var i in value) {
+      _generateVirtualTree(virtualDetailContent, i, value[i]);
+    }
+  }
+  parent.appendChild(virtualLiDetail);
+};
+
 util.on(dom.entity, 'click', '.figure', function (evt) {
   var e = evt || event;
   var target = e.target || e.srcElement;
@@ -20,8 +36,11 @@ util.on(dom.entity, 'click', '.figure', function (evt) {
   var title = virtualDetailTitle.nativeElement;
   var content = virtualDetailContent.nativeElement;
   if (!content) {
-    dom.generateDetail(liDetail, virtualDetail.content);
+    dom.generateDetail(liDetail, virtualDetail);
+    virtualDetail.map(liDetail);
+    virtualDetail.mapTitle();
     virtualDetail.mapContent();
+    title = virtualDetailTitle.nativeElement;
     content = virtualDetailContent.nativeElement;
   }
   if (virtualDetailTitle.toggle === 'on') {
@@ -37,13 +56,6 @@ util.on(dom.entity, 'click', '.figure', function (evt) {
   }
 });
 
-Bus.on('WRITE_DETAIL', function (liDetail, content) {
-  var virtualLiDetail = new VirtualLiDetail(content);
-  virtualLiDetail.map(liDetail);
-  liDetail.setAttribute('data-virtual-id', virtualLiDetail.id);
-  virtualLiDetail.mapTitle();
-});
-
 Bus.on('WRITE', function (level, fmt, li) {
   var virtualLi = new VirtualLi(level);
   virtualEntity.appendChild(virtualLi);
@@ -51,13 +63,13 @@ Bus.on('WRITE', function (level, fmt, li) {
   if (fmt.instance === 'string' || fmt.instance === 'other') {
     return;
   }
-  var virtualLiDetail = new VirtualLiDetail(fmt.content);
   var liDetail = li.querySelector('.xlog-list-detail');
   if (!liDetail) {
     return;
   }
+  _generateVirtualTree(virtualLi, null, fmt.content);
+  var virtualLiDetail = virtualLi.getElmentsByTagName('virtualLiDetail')[0];
   liDetail.setAttribute('data-virtual-id', virtualLiDetail.id);
-  virtualLi.appendChild(virtualLiDetail);
   virtualLiDetail.map(liDetail);
   virtualLiDetail.mapTitle();
 });

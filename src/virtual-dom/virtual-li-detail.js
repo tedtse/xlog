@@ -2,12 +2,12 @@ var VirtualElement = require('./virtual-element');
 var VirtualLiDetailTitle = require('./virtual-li-detail-title');
 var VirtualLiDetailContent = require('./virtual-li-detail-content');
 
-var VirtualLiDetail = function (content) {
+var VirtualLiDetail = function (key, value) {
   VirtualElement.call(this);
   this.tagName = 'VIRTUALLIDETAIL';
-  this.content = content;
-  this.children = [];
-  this.children.push(
+  this.key = key;
+  this.value = value;
+  this.appendChild(
     new VirtualLiDetailTitle(),
     new VirtualLiDetailContent()
   );

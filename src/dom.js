@@ -10,6 +10,14 @@
   var OBJECT_START_STRING = '<div class="figure">Object <i>{</i> <p>';
   var OBJECT_END_STRING = '</p> <i>}</i></div>';
 
+  var getDetailStartString = function (id) {
+    if (id) {
+      return '<div class="xlog-list-detail" data-virtual-id="' + id + '">';
+    } else {
+      return DETAIL_START_STRING;
+    }
+  };
+
   var _msgFormat = function (obj) {
     var result = {};
     if (!obj) {
@@ -37,17 +45,17 @@
     return result;
   };
 
-  var _objectSummary = function (obj) {
+  var _titleSummary = function (obj) {
     var result = '';
     if (!obj) {
       return result;
     }
     switch (obj.constructor) {
       case Array:
-        result = DETAIL_START_STRING + ARRAY_START_STRING + obj.length + ARRAY_END_STRING + DETAIL_END_STRING;
+        result = 'Array <i>[</i>' + obj.length + '<i>]</i>';
         break;
       case Object:
-        result = DETAIL_START_STRING + OBJECT_START_STRING + OBJECT_END_STRING + DETAIL_END_STRING;
+        result = 'Object <i>{</i> <i>}</i>';
         break;
       default:
         result = obj;
@@ -56,21 +64,42 @@
     return result;
   };
 
-  var _objectDetail = function (obj) {
-    var html = '';
+  var _objectSummary = function (obj, id) {
+    var result = '';
     if (!obj) {
+      return result;
+    }
+    switch (obj.constructor) {
+      case Array:
+        result = getDetailStartString(id) + ARRAY_START_STRING + obj.length + ARRAY_END_STRING + DETAIL_END_STRING;
+        break;
+      case Object:
+        result = getDetailStartString(id) + OBJECT_START_STRING + OBJECT_END_STRING + DETAIL_END_STRING;
+        break;
+      default:
+        result = obj;
+        break;
+    }
+    return result;
+  };
+
+  var _objectDetail = function (virtualDetail) {
+    var html = '';
+    if (!virtualDetail) {
       return html;
     }
-    if (obj.constructor === Array) {
+    var value = virtualDetail.value;
+    var children = virtualDetail.children[1].children;
+    if (value.constructor === Array) {
       html += '<ul>';
-      for (var i = 0, j = obj.length; i < j; i++) {
-        html += '<li><span class="xlog-key">' + i + '</span>: <span class="xlog-value">' + _objectSummary(obj[i]) + '</span></li>';
+      for (var i = 0, j = children.length; i < j; i++) {
+        html += '<li><span class="xlog-key">' + children[i].key + '</span>: <span class="xlog-value">' + _objectSummary(children[i].value, children[i].id) + '</span></li>';
       }
       html += '</ul>';
-    } else if (obj.constructor === Object) {
+    } else if (value.constructor === Object) {
       html += '<ul>';
-      for (var i in obj) {
-        html += '<li><span class="xlog-key">' + i + '</span>: <span class="xlog-value">' + _objectSummary(obj[i]) + '</span></li>';
+      for (var i = 0, j = children.length; i < j; i++) {
+        html += '<li><span class="xlog-key">' + children[i].key + '</span>: <span class="xlog-value">' + _objectSummary(children[i].value, children[i].id) + '</span></li>';
       }
       html += '</ul>';
     }
@@ -81,7 +110,7 @@
     var length = arr.length;
     var _arr = arr.slice(0, length);
     for (var i = _arr.length; i--;) {
-      _arr[i] = _objectSummary(_arr[i]);
+      _arr[i] = _titleSummary(_arr[i]);
     }
     var html = 
       ARRAY_START_STRING + _arr.join(', ') + ARRAY_END_STRING;
@@ -92,7 +121,7 @@
     var titleArray = [];
     var html = '';
     for (var key in obj) {
-      titleArray.push('<span class="xlog-key">' + key + '</span>: <span class="xlog-value">' + _objectSummary(obj[key]) + '</span>'); 
+      titleArray.push('<span class="xlog-key">' + key + '</span>: <span class="xlog-value">' + _titleSummary(obj[key]) + '</span>');
     }
     html = 
       OBJECT_START_STRING + titleArray.join(', ') + OBJECT_END_STRING;
@@ -185,9 +214,8 @@
       }
     },
 
-    generateDetail: function (liDetail, content) {
-      liDetail.innerHTML += _objectDetail(content);
-      Bus.dispatch('WRITE_DETAIL', liDetail, content);
+    generateDetail: function (liDetail, virtualDetail) {
+      liDetail.innerHTML += _objectDetail(virtualDetail);
     }
   };
 }) (window, document);
