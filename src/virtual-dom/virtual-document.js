@@ -36,5 +36,3 @@ Bus.once('CONTAINER_SHOW', function () {
 Bus.on('DROPBAR_SHOW', function () {
   virtualDropbar.syncProperty('offsetHeight');
 });
-
-window.__container__ = virtualContainer;

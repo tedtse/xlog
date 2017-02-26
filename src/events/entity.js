@@ -10,6 +10,9 @@ var virtualContainer = virtualCache.container;
 var virtualEntity = virtualCache.entity;
 
 var _generateVirtualTree = function (parent, key, value) {
+  if (!value) {
+    return;
+  }
   var virtualLiDetail = new VirtualLiDetail(key, value);
   var virtualDetailTitle = virtualLiDetail.getElmentsByTagName('virtuallidetailtitle')[0];
   var virtualDetailContent = virtualLiDetail.getElmentsByTagName('virtuallidetailcontent')[0];
