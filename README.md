@@ -25,13 +25,13 @@ Client
 | display| false      | 初始是否显示 |
 
 #### Api
-- log ——
+- log   ——
   Xlog.log(msg), 同console.log(msg)
 - debug ——
   Xlog.debug(msg), 同console.debug(msg)
-- info ——
+- info  ——
   Xlog.info(msg), 同console.info(msg)
-- warn ——
+- warn  ——
   Xlog.warn(msg), 同console.warn(msg)
 - error ——
   Xlog.error(msg), 同console.error(msg)
@@ -49,6 +49,6 @@ Client
   Xlog.info('ffffffffffffffeeeeeee');
 
   Xlog.warn(3);
-  
+
   Xlog.error(4);
 ```
