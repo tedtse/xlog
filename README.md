@@ -15,7 +15,7 @@ Client
     display: false
   });
 ```
-- 参数说明
+#### 参数说明
 
 | Name        | Default           | Description  |
 | ------------- |-----------| ---------------------|
@@ -25,24 +25,30 @@ Client
 | display| false      | 初始是否显示 |
 
 #### Api
-- log
+- log ——
   Xlog.log(msg), 同console.log(msg)
-- debug
+- debug ——
   Xlog.debug(msg), 同console.debug(msg)
-- info
+- info ——
   Xlog.info(msg), 同console.info(msg)
-- warn
+- warn ——
   Xlog.warn(msg), 同console.warn(msg)
-- error
+- error ——
   Xlog.error(msg), 同console.error(msg)
 
 #### Example
 ```
   var Xlog = require('.../xlog');
+
   Xlog.log({a: 1, b: [2, 3]});
+
   Xlog.log({a: 1, b: {c: 2, d: 3}});
+
   Xlog.info([1, 2]);
+
   Xlog.info('ffffffffffffffeeeeeee');
+
   Xlog.warn(3);
+  
   Xlog.error(4);
 ```
